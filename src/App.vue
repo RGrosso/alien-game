@@ -61,6 +61,13 @@
           />
         </g>
       </svg>
+
+      <div class="friendtalk"><h3>{{ questions[questionIndex].question }}</h3></div>
+      <div class="zombietalk">
+        <p v-for="character in shuffle(characterChoices)" :key="character">
+          <button @click="pickQuestion(character)">{{ questions[questionIndex][character] }}</button>
+        </p>
+      </div>
     </section>
   </div>
 </template>
@@ -93,14 +100,29 @@ export default {
   },
   computed: {
     ...mapState([
-      "uiState", "questions", "characterChoices", "character"
+      "uiState", 
+      "questions", 
+      "characterChoices", 
+      "character", 
+      "questionIndex"
     ])
   },
   methods: {
     pickCharacter() {
       this.$store.commit("pickCharacter", this.characterInput);
       this.$store.commit("updateUIState", "characterChosen");
-    }
+    },
+    pickQuestion(character) {
+      this.$store.commit("pickQuestion", character);
+    },
+    shuffle(array) {
+      // fisher yates shuffle
+      for (let i = array.length - 1; i> 0 ; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]
+      }
+      return array;
+    } 
   }
 };
 </script>
