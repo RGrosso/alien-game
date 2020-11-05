@@ -63,11 +63,16 @@ export default new Vuex.Store({
                 state.score -= 13;
             }
 
-            if (state.questionIndex < state.questions.length -1) {
+            if (state.questionIndex < state.questions.length - 1) {
                 state.questionIndex++;
             } else {
                 state.uiState = Math.sign(state.score) > 0 ? "won" : "lost";
             }
+        },
+        restartGame(state) {
+            state.uiState = "start";
+            state.score = 0;
+            state.questionIndex = 0;
         },
     },
 });
